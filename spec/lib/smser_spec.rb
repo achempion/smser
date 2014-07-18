@@ -35,6 +35,15 @@ describe Smser do
 
         Smser::Sms.pass 'text', 'phone', @adapter_params
       end
+
+      it do
+        allow(Smser::Sms).to receive(:URI).with(@adapter_params[:settings][:url]).and_return(:uri)
+
+        expect(Net::HTTP).to receive(:post_form).with(:uri, {login: 1, password: 2, txt: 'text', phone: 'phone1'})
+        expect(Net::HTTP).to receive(:post_form).with(:uri, {login: 1, password: 2, txt: 'text', phone: 'phone2'})
+
+        Smser::Sms.pass 'text', ['phone1', 'phone2'], @adapter_params
+      end
     end
   end
 end
