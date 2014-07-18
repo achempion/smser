@@ -29,11 +29,17 @@ module Smser
 
         def initialize
           super
-          @settings = Struct.new(:url, :text_code, :phone_code).new
+          @settings = Settings.new
         end
 
         def marshal_dump
           super.merge settings: @settings.to_h
+        end
+
+        class Settings < Struct.new(:url, :text_code, :phone_code)
+          def url= uri
+            super URI(uri)
+          end
         end
       end
     end

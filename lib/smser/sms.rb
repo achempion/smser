@@ -8,7 +8,6 @@ module Smser
       def pass text, numbers, adapter_params
         @text = text
         @settings = adapter_params.delete(:settings)
-        @uri = URI(@settings[:url])
         @adapter_params = adapter_params
 
         if numbers.is_a? Array
@@ -21,7 +20,7 @@ module Smser
       private
 
       def send_sms phone
-        Net::HTTP.post_form(@uri, @adapter_params.merge(@settings[:text_code] => @text, @settings[:phone_code] => phone))
+        Net::HTTP.post_form(@settings[:url], @adapter_params.merge(@settings[:text_code] => @text, @settings[:phone_code] => phone))
       end
     end
 

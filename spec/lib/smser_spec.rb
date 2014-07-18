@@ -17,7 +17,7 @@ describe Smser do
       end
     end
 
-    expect(Smser::Sms).to receive(:pass).with('text', 'qwe', {settings: {url: 'url', text_code: :txt, phone_code: :phone}, login: 1, password: 2})
+    expect(Smser::Sms).to receive(:pass).with('text', 'qwe', {settings: {url: URI('url'), text_code: :txt, phone_code: :phone}, login: 1, password: 2})
 
     Smser.pass 'text', 'qwe'
   end
@@ -29,18 +29,14 @@ describe Smser do
 
     describe '.pass' do
       it do
-        allow(Smser::Sms).to receive(:URI).with(@adapter_params[:settings][:url]).and_return(:uri)
-
-        expect(Net::HTTP).to receive(:post_form).with(:uri, {login: 1, password: 2, txt: 'text', phone: 'phone'})
+        expect(Net::HTTP).to receive(:post_form).with('url', {login: 1, password: 2, txt: 'text', phone: 'phone'})
 
         Smser::Sms.pass 'text', 'phone', @adapter_params
       end
 
       it do
-        allow(Smser::Sms).to receive(:URI).with(@adapter_params[:settings][:url]).and_return(:uri)
-
-        expect(Net::HTTP).to receive(:post_form).with(:uri, {login: 1, password: 2, txt: 'text', phone: 'phone1'})
-        expect(Net::HTTP).to receive(:post_form).with(:uri, {login: 1, password: 2, txt: 'text', phone: 'phone2'})
+        expect(Net::HTTP).to receive(:post_form).with('url', {login: 1, password: 2, txt: 'text', phone: 'phone1'})
+        expect(Net::HTTP).to receive(:post_form).with('url', {login: 1, password: 2, txt: 'text', phone: 'phone2'})
 
         Smser::Sms.pass 'text', ['phone1', 'phone2'], @adapter_params
       end
