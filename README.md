@@ -6,7 +6,7 @@ This gem will help your use several SMS providers via the same interface
 
 Append gem to Gemfile
 
-    gem 'smser'
+    gem 'smser', github: 'achempion/smser'
     
 And then run
 
@@ -37,7 +37,7 @@ Smser.configure do |config|
   # this adapter will use as default from Sms.pass()
   config.default_adapter = :sms_uslugi
 
-  # configuration for default adapter
+  # configuration for :sms_uslugi adapter
   config.adapters.sms_uslugi.tap do |adapter|
     # this parameters(:login, :password, :any_other_parameter) will send with every post request
     # after call pass method, because most sms providers support authentification and configuration
@@ -62,12 +62,12 @@ Smser.configure do |config|
 end
 ```
 
-This meant that `Sms.pass 'text', 'phone'` send post request to `https://lcab.sms-uslugi.ru/lcabApi/sendSms.php`
+This mean that `Sms.pass 'text', 'phone'` send post request to `https://lcab.sms-uslugi.ru/lcabApi/sendSms.php`
 with `{login: 'root', password: 'password', any_other_parameter: 'qq', txt: 'text', to: 'phone'}` attributes
 
 ## Contributing
 
-1. Fork it ( http://github.com/<my-github-username>/smser/fork )
+1. Fork it ( http://github.com/achempion/smser/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
