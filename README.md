@@ -1,24 +1,69 @@
 # Smser
 
-TODO: Write a gem description
+This gem will help your use several SMS providers via the same interface
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Append gem to Gemfile
 
     gem 'smser'
+    
+And then run
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install smser
+    $ rails g smser:install 
+    
+This command create a configuration file
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+Smser.pass 'text', 'phone' # with one number
+
+Smser.pass 'text', ['phone1', 'phone2'] # with several numbers
+```
+
+Or you can use specific adapter (that you configure in configuration file)
+```ruby
+Smser.pass 'text', 'phone', :adapter_code
+```
+
+## Configuration
+
+Sample of configuration file created with `rails g smser:inatall` command
+
+example:
+```ruby
+Smser.configure do |config|
+  # this adapter will use as default from Sms.pass()
+  config.default_adapter = :sms_uslugi
+
+  # configuration for default adapter
+  config.adapters.sms_uslugi.tap do |adapter|
+    # this parameters(:login, :password, :any_other_parameter) will send with every post request
+    # after call pass method, because most sms providers support authentification and configuration
+    # with this method
+    adapter.login = 'root'
+    adapter.password = 'password'
+    adapter.any_other_parameter = 'qq'
+    
+    #
+    # here is also required parameters
+    #
+    
+    # configure url when request will send
+    adapter.settings.url = 'https://lcab.sms-uslugi.ru/lcabApi/sendSms.php'
+    
+    # configure text parameter
+    adapter.settings.text_code = :txt
+    
+    # configure phone parameter
+    adapter.settings.phone_code = :to
+  end
+end
+```
+
+This meant that `Sms.pass 'text', 'phone'` send post request to `https://lcab.sms-uslugi.ru/lcabApi/sendSms.php`
+with `{login: 'root', password: 'password', any_other_parameter: 'qq', txt: 'text', to: 'phone'}` attributes
 
 ## Contributing
 
