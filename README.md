@@ -1,6 +1,6 @@
 # Smser
 
-This gem will help your use several SMS providers via the same interface
+This gem will help you use several SMS providers via the same interface
 
 ## Installation
 
