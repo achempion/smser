@@ -29,7 +29,7 @@ Smser.pass 'text', 'phone', :adapter_code
 
 ## Configuration
 
-Sample of configuration file created with `rails g smser:inatall` command
+Sample of configuration file created with `rails g smser:install` command
 
 example:
 ```ruby
